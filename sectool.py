@@ -144,7 +144,7 @@ def install_security_tools():
                 clone_repo(repo_url, repo_name)
                 os.system(f"cd {os.path.join('/opt', repo_name)} && sudo pip3 install --user -r requirements.txt")
                 print_banner()                                                           
-            elif int(choice) == 6:
+            elif int(choice) == 7:
                 return  # Go back to the main menu
         else:
             print("Invalid choice. Please try again.")
