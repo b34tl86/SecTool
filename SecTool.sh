@@ -316,7 +316,7 @@ while true; do
             ;;
         5)
             echo "Please choose the OTHERS tool to install:"
-            echo "1. PDTMAutorecon"
+            echo "1. PDTM"
             echo "2. Install All"
             read -p "Enter your choice (1-2): " others_choice
             case $others_choice in
