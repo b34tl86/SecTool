@@ -90,6 +90,7 @@ def install_security_tools():
         "ParamSpider (https://github.com/devanshbatham/paramspider)",
         "PhoneSploit-Pro (https://github.com/AzeemIdrisi/PhoneSploit-Pro.git)",
         "BirDuster (https://www.github.com/ytisf/BirDuster)",
+        "NucleiScanner (https://github.com/0xKayala/NucleiScanner.git)",
         "Install All",
         "Back to Main Menu"
     ]
@@ -143,8 +144,15 @@ def install_security_tools():
                 repo_name = repo_url.split("/")[-1].split(".git")[0]
                 clone_repo(repo_url, repo_name)
                 os.system(f"cd {os.path.join('/opt', repo_name)} && sudo pip3 install --user -r requirements.txt")
-                print_banner()                                                           
+                print_banner()
             elif int(choice) == 7:
+                # Install BirDuster
+                repo_url = "https://github.com/0xKayala/NucleiScanner.git"
+                repo_name = repo_url.split("/")[-1].split(".git")[0]
+                clone_repo(repo_url, repo_name)
+                os.system(f"cd {os.path.join('/opt', repo_name)} && cd NucleiScanner && sudo chmod +x install.sh && ./install.sh && ns -h && cd ..")
+                print_banner()     
+            elif int(choice) == 8:
                 return  # Go back to the main menu
         else:
             print("Invalid choice. Please try again.")
