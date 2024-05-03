@@ -186,7 +186,7 @@ install_osint_tools() {
 install_pdtm() {
     go install -v github.com/projectdiscovery/pdtm/cmd/pdtm@latest
     create_symbolic_links "pdtm"
-    echo "   5.1. PDTMAutorecon installation complete."
+    echo "   5.1. PDTM installation complete."
 }
 
 install_others_tools() {
