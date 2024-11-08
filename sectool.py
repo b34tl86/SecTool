@@ -247,14 +247,14 @@ def install_other_tools():
         elif choice == 'B':
             return
         elif choice == 'A':
-            os.system("sudo apt remove -y nuclei && sudo apt-get autoremove -y")
+            os.system("sudo apt remove -y nuclei subfinder && sudo apt-get autoremove -y")
             install_tool("https://github.com/projectdiscovery/pdtm")
             install_tool("https://github.com/h4r5h1t/webcopilot")
             install_tool("https://github.com/Screetsec/TheFatRat")
             print_banner()
         elif int(choice) == 1:
                 # Install PDTM
-                os.system("sudo apt remove -y nuclei httpx naabu && sudo apt-get autoremove -y")
+                os.system("sudo apt remove -y nuclei subfinder && sudo apt-get autoremove -y")
                 os.system("go install -v github.com/projectdiscovery/pdtm/cmd/pdtm@latest")
                 os.system("source ~/.zshrc")  # Source the zshrc file
                 os.system("~/go/bin/pdtm -ia")  # Run pdtm -ia
