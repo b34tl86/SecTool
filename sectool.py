@@ -215,24 +215,27 @@ def install_other_tools():
         "Webcopilot (github.com/h4r5h1t/webcopilot)",
         "FatRat (https://github.com/Screetsec/TheFatRat.git)",
         "Nucleimonst3r (https://github.com/blackhatethicalhacking/Nucleimonst3r.git)",
+        "CyberPhish (https://github.com/Cyber-Dioxide/CyberPhish)",
         "Back to Main Menu"
     ]
 
-    def install_nucleimonst3r():
-        """Install Nucleimonst3r tool to /opt."""
-        repo_url = "https://github.com/blackhatethicalhacking/Nucleimonst3r.git"
-        repo_name = "Nucleimonst3r"
+    def install_cyberphish():
+        """Install CyberPhish tool to /opt."""
+        # Step 1: Install colorama dependency if not already installed
+        os.system("pip install colorama")
+
+        # Step 2: Clone CyberPhish repository to /opt
+        repo_url = "https://github.com/Cyber-Dioxide/CyberPhish"
+        repo_name = "CyberPhish"
         full_path = os.path.join("/opt", repo_name)
 
-        # Remove any existing directory
         if os.path.exists(full_path):
             os.system(f"sudo rm -rf {full_path}")
 
-        # Clone the repository to /opt
         os.system(f"sudo git clone {repo_url} {full_path}")
         
-        # Make Nucleimonst3r.sh executable
-        os.system(f"cd {full_path} && sudo chmod +x Nucleimonst3r.sh")
+        # Step 3: Install requirements
+        os.system(f"cd {full_path} && sudo pip install -r requirements.txt")
         print_banner()
 
     while True:
@@ -275,12 +278,16 @@ def install_other_tools():
                 os.system(f"cd {os.path.join('/opt', repo_name)} && sudo chmod +x setup.sh && sudo ./setup.sh")
                 print_banner()
             elif choice == 4:
-                # Install Nucleimonst3r to /opt
+                # Install Nucleimonst3r
                 install_nucleimonst3r()
+            elif choice == 5:
+                # Install CyberPhish
+                install_cyberphish()
             elif choice == len(other_tools_menu):
                 return  # Go back to the main menu
         else:
             print("Invalid choice. Please try again.")
+
 
 
 def main_menu():
