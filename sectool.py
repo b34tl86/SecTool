@@ -247,7 +247,7 @@ def install_other_tools():
         elif choice == 'B':
             return
         elif choice == 'A':
-            os.system("sudo apt remove -y nuclei httpx naabu && sudo apt-get autoremove -y")
+            os.system("sudo apt remove -y nuclei && sudo apt-get autoremove -y")
             install_tool("https://github.com/projectdiscovery/pdtm")
             install_tool("https://github.com/h4r5h1t/webcopilot")
             install_tool("https://github.com/Screetsec/TheFatRat")
