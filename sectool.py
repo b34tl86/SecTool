@@ -207,6 +207,24 @@ def install_osint_tools():
         else:
             print("Invalid choice. Please try again.")
 
+def remove_projectdiscovery_tools():
+    # List of common ProjectDiscovery tools to remove
+    projectdiscovery_tools = [
+        "nuclei",
+        "httpx",
+        "naabu",
+        "subfinder",
+        "dnsx",
+        "pdtm"
+    ]
+
+    for tool in projectdiscovery_tools:
+        os.system(f"sudo rm -f /usr/local/bin/{tool}")  # Remove tool from common install paths
+        os.system(f"sudo apt-get remove --purge -y {tool}")  # Remove if installed through package manager
+        os.system("sudo apt-get autoremove -y")
+
+    print("All ProjectDiscovery tools have been removed.")
+
 def install_other_tools():
     other_tools_menu = [
         "PDTM (github.com/projectdiscovery/pdtm)",
@@ -224,6 +242,9 @@ def install_other_tools():
             return  # Go back to the main menu
         elif choice.isdigit() and 1 <= int(choice) <= len(other_tools_menu):
             if int(choice) == 1:
+                # Remove existing ProjectDiscovery tools
+                remove_projectdiscovery_tools()
+
                 # Install PDTM
                 os.system("go install -v github.com/projectdiscovery/pdtm/cmd/pdtm@latest")
                 os.system("source ~/.zshrc")  # Source the zshrc file
@@ -258,6 +279,7 @@ def install_other_tools():
                 return  # Go back to the main menu
         else:
             print("Invalid choice. Please try again.")
+
 
 def main_menu():
     main_menu_options = ["Utility Tools", "Security Tools", "OSINT Tools", "Other Tools"]
