@@ -1,33 +1,23 @@
 import os
-import subprocess
 from colorama import Fore, Style, init
+
+# Check if colorama is installed, if not, install it
+try:
+    from colorama import Fore, Style, init
+except ImportError:
+    os.system("pip install colorama")
+    from colorama import Fore, Style, init
 
 # Initialize colorama
 init()
 
-def is_valid_choice(choice, menu_length):
-    """Check if the input choice is valid."""
-    return choice.isdigit() and 1 <= int(choice) <= menu_length
-
-def check_permissions():
-    """Ensure the script is run as root."""
-    if os.geteuid() != 0:
-        print("This script must be run as root (use sudo).")
-        exit(1)
-
 def install_package(package_name):
-    """Install a package using apt-get and handle errors."""
-    try:
-        subprocess.run(["sudo", "apt-get", "install", "-y", package_name], check=True)
-    except subprocess.CalledProcessError:
-        print(f"Error installing package: {package_name}")
+    os.system(f"sudo apt-get install {package_name}")
 
 def clear_screen():
-    """Clear the terminal screen."""
     os.system("clear")
 
 def display_menu(menu_options, menu_name):
-    """Display the menu options and handle input."""
     clear_screen()
     print_banner()
 
@@ -35,13 +25,10 @@ def display_menu(menu_options, menu_name):
     for index, option in enumerate(menu_options, start=1):
         print(f"{index}. {option}")
 
-    # Add "A" for Install All and "B" for Back to Main Menu
-    print(f"\nA. Install All\nB. Back to Main Menu\nq. Quit")
-    choice = input("\nEnter your choice (q to quit, B to go back to main menu): ")
+    choice = input("\nEnter your choice (q to quit, b to go back): ")
     return choice
 
 def print_banner():
-    """Print the banner."""
     banner = f"""
     {Fore.RED}{Style.BRIGHT}███████ ▓█████  ▄████▄  ▄▄▄█████▓ ▒█████   ▒█████   ██▓    
     ▒██    ▒ ▓█   ▀ ▒██▀ ▀█  ▓  ██▒ ▓▒▒██▒  ██▒▒██▒  ██▒▓██▒    
@@ -55,58 +42,24 @@ def print_banner():
                     ░                                          
                                     Made with ❤️️ by s1lv3r{Style.RESET_ALL}
     """
+
     print(banner)
 
 def clone_repo(repo_url, repo_name, install_path="/opt/"):
-    """Clone a git repository and install it."""
     full_path = os.path.join(install_path, repo_name)
     if os.path.exists(full_path):
-        subprocess.run(["sudo", "rm", "-rf", full_path])
+        os.system(f"sudo rm -rf {full_path}")
 
-    subprocess.run(["sudo", "git", "clone", repo_url, full_path])
-
-def install_git_repo(repo_url, repo_name, install_script="install.sh"):
-    """Clone a repository and run the install script."""
-    clone_repo(repo_url, repo_name)
-    repo_path = os.path.join("/opt", repo_name)
-    subprocess.run(["sudo", "chmod", "+x", install_script], cwd=repo_path)
-    subprocess.run([f"sudo ./install.sh"], cwd=repo_path)
-
-def install_other_tools():
-    """Install other tools from the menu."""
-    other_tools_menu = [
-        "PDTM (github.com/projectdiscovery/pdtm)",
-        "Webcopilot (github.com/h4r5h1t/webcopilot)",
-        "FatRat (https://github.com/Screetsec/TheFatRat.git)",
-        "Nucleimonst3r (https://github.com/blackhatethicalhacking/Nucleimonst3r.git)",
-        "CyberPhish (https://github.com/Cyber-Dioxide/CyberPhish)"
-    ]
-
-    while True:
-        choice = display_menu(other_tools_menu, "Other Tools")
-
-        if choice == 'q':
-            break
-        elif choice.lower() == 'a':
-            # Install all other tools
-            for i in range(0, len(other_tools_menu)):
-                install_git_repo(other_tools_menu[i], other_tools_menu[i].split()[0])
-            print("All other tools installed.")
-        elif choice.lower() == 'b':
-            # Go back to the main menu
-            break
-        elif is_valid_choice(choice, len(other_tools_menu)):
-            install_git_repo(other_tools_menu[int(choice) - 1], other_tools_menu[int(choice) - 1].split()[0])
-        else:
-            print("Invalid choice. Please try again.")
+    os.system(f"sudo git clone {repo_url} {full_path}")
 
 def install_utility_tools():
-    """Install utility tools from the menu."""
     utility_tools_menu = [
         "chromium-browser",
         "geany",
         "gedit",
-        "synaptic"
+        "synaptic",
+        "Install All",
+        "Back to Main Menu"
     ]
 
     while True:
@@ -114,93 +67,199 @@ def install_utility_tools():
 
         if choice == 'q':
             break
-        elif choice.lower() == 'a':
-            # Install all utility tools
-            for tool in utility_tools_menu:
-                install_package(tool)
-            print("All utility tools installed.")
-        elif choice.lower() == 'b':
-            # Go back to the main menu
-            break
-        elif is_valid_choice(choice, len(utility_tools_menu)):
-            install_package(utility_tools_menu[int(choice) - 1])
+        elif choice == 'b':
+            return  # Go back to the main menu
+        elif choice.isdigit() and 1 <= int(choice) <= len(utility_tools_menu):
+            if int(choice) == len(utility_tools_menu) - 1:
+                # Install all utility tools
+                for tool in utility_tools_menu[:-2]:
+                    os.system(f"sudo apt-get purge -y {tool} && sudo apt-get autoremove -y && sudo apt-get install -y {tool}")
+                print_banner()
+            elif int(choice) == len(utility_tools_menu):
+                return  # Go back to the main menu
+            else:
+                os.system(f"sudo apt-get purge -y {utility_tools_menu[int(choice) - 1]} && sudo apt-get autoremove -y && sudo apt-get install -y {utility_tools_menu[int(choice) - 1]}")
+                print_banner()
         else:
             print("Invalid choice. Please try again.")
-
 def install_security_tools():
-    """Install security tools from the menu."""
     security_tools_menu = [
-        ("AutoRecon", "https://github.com/Tib3rius/AutoRecon.git"),
-        ("Ghauri", "https://github.com/r0oth3x49/ghauri.git"),
-        ("GooFuzz", "https://github.com/m3n0sd0n4ld/GooFuzz.git"),
-        ("ParamSpider", "https://github.com/devanshbatham/paramspider"),
-        ("PhoneSploit-Pro", "https://github.com/AzeemIdrisi/PhoneSploit-Pro.git"),
-        ("BirDuster", "https://www.github.com/ytisf/BirDuster"),
-        ("NucleiScanner", "https://github.com/0xKayala/NucleiScanner.git")
+        "AutoRecon (https://github.com/Tib3rius/AutoRecon.git)",
+        "Ghauri (https://github.com/r0oth3x49/ghauri.git)",
+        "GooFuzz (https://github.com/m3n0sd0n4ld/GooFuzz.git)",
+        "ParamSpider (https://github.com/devanshbatham/paramspider)",
+        "PhoneSploit-Pro (https://github.com/AzeemIdrisi/PhoneSploit-Pro.git)",
+        "BirDuster (https://www.github.com/ytisf/BirDuster)",
+        "Install All",
+        "Back to Main Menu"
     ]
 
     while True:
-        choice = display_menu([tool[0] for tool in security_tools_menu], "Security Tools")
+        choice = display_menu(security_tools_menu, "Security Tools")
 
         if choice == 'q':
             break
-        elif choice.lower() == 'a':
-            # Install all security tools
-            for tool in security_tools_menu:
-                install_git_repo(tool[1], tool[0])
-            print("All security tools installed.")
-        elif choice.lower() == 'b':
-            # Go back to the main menu
-            break
-        elif is_valid_choice(choice, len(security_tools_menu)):
-            selected_tool = security_tools_menu[int(choice) - 1]
-            install_git_repo(selected_tool[1], selected_tool[0])
+        elif choice == 'b':
+            return  # Go back to the main menu-
+        elif choice.isdigit() and 1 <= int(choice) <= len(security_tools_menu):
+            if int(choice) == 1:
+                # Install Autorecon
+                repo_url = "https://github.com/Tib3rius/AutoRecon.git"
+                repo_name = repo_url.split("/")[-1].split(".git")[0]
+                clone_repo(repo_url, repo_name)
+                os.system(f"cd {os.path.join('/opt', repo_name)} && python3 -m pip install -r requirements.txt")  
+                print_banner()
+            elif int(choice) == 2:
+                # Install Ghauri
+                repo_url = "https://github.com/r0oth3x49/ghauri.git"
+                repo_name = repo_url.split("/")[-1].split(".git")[0]
+                clone_repo(repo_url, repo_name)
+                os.system(f"cd {os.path.join('/opt', repo_name)} && python3 -m pip install --upgrade -r requirements.txt && python3 -m pip install -e")
+                print_banner()
+            elif int(choice) == 3:
+                # Install GooFuzz
+                repo_url = "https://github.com/m3n0sd0n4ld/GooFuzz.git"
+                repo_name = repo_url.split("/")[-1].split(".git")[0]
+                clone_repo(repo_url, repo_name)
+                os.system(f"cd {os.path.join('/opt', repo_name)} && sudo chmod +x GooFuzz")
+                print_banner()   
+            elif int(choice) == 4:
+                # Install ParamSpider
+                repo_url = "https://github.com/devanshbatham/paramspider"
+                repo_name = repo_url.split("/")[-1].split(".git")[0]
+                clone_repo(repo_url, repo_name)
+                os.system(f"cd {os.path.join('/opt', repo_name)} && sudo pip install .")
+                print_banner()
+            elif int(choice) == 5:
+                # Install PhoneSploit-Pro
+                repo_url = "https://github.com/AzeemIdrisi/PhoneSploit-Pro.git"
+                repo_name = repo_url.split("/")[-1].split(".git")[0]
+                clone_repo(repo_url, repo_name)
+                os.system(f"cd {os.path.join('/opt', repo_name)} && sudo pip install -r requirements.txt")
+                print_banner() 
+            elif int(choice) == 6:
+                # Install BirDuster
+                repo_url = "https://www.github.com/ytisf/BirDuster"
+                repo_name = repo_url.split("/")[-1].split(".git")[0]
+                clone_repo(repo_url, repo_name)
+                os.system(f"cd {os.path.join('/opt', repo_name)} && sudo pip3 install --user -r requirements.txt")
+                print_banner()                                                           
+            elif int(choice) == 7:
+                return  # Go back to the main menu
         else:
             print("Invalid choice. Please try again.")
 
 def install_osint_tools():
-    """Install OSINT tools from the menu."""
     osint_tools_menu = [
-        ("BlackBird", "https://github.com/p1ngul1n0/blackbird"),
-        ("Mr. Holmes", "https://github.com/Lucksi/Mr.Holmes"),
-        ("SIGIT", "https://github.com/termuxhackers-id/SIGIT.git"),
-        ("Alfred", "https://github.com/alfredredbird/alfred")
+        "BlackBird (https://github.com/p1ngul1n0/blackbird)",
+        "Mr. Holmes (https://github.com/Lucksi/Mr.Holmes)",
+        "SIGIT (https://github.com/termuxhackers-id/SIGIT.git)",
+        "Alfred (https://github.com/alfredredbird/alfred)",
+        "Back to Main Menu"
     ]
 
     while True:
-        choice = display_menu([tool[0] for tool in osint_tools_menu], "OSINT Tools")
+        choice = display_menu(osint_tools_menu, "OSINT Tools")
 
         if choice == 'q':
             break
-        elif choice.lower() == 'a':
-            # Install all OSINT tools
-            for tool in osint_tools_menu:
-                install_git_repo(tool[1], tool[0])
-            print("All OSINT tools installed.")
-        elif choice.lower() == 'b':
-            # Go back to the main menu
+        elif choice == 'b':
+            return  # Go back to the main menu
+        elif choice.isdigit() and 1 <= int(choice) <= len(osint_tools_menu):
+            if int(choice) == 1:
+                # Install BlackBird
+                repo_url = "https://github.com/p1ngul1n0/blackbird"
+                repo_name = repo_url.split("/")[-1]
+                clone_repo(repo_url, repo_name)
+                os.system(f"cd {os.path.join('/opt', repo_name)} && pip install -r requirements.txt")
+                print_banner()
+            elif int(choice) == 2:
+                # Install Mr. Holmes
+                repo_url = "https://github.com/Lucksi/Mr.Holmes"
+                repo_name = repo_url.split("/")[-1]
+                clone_repo(repo_url, repo_name)
+                os.system(f"cd {os.path.join('/opt', repo_name)} && sudo chmod +x install.sh && sudo bash install.sh")
+                print_banner()
+            elif int(choice) == 3:
+                # Install SIGIT
+                repo_url = "https://github.com/termuxhackers-id/SIGIT.git"
+                repo_name = "SIGIT"
+                clone_repo(repo_url, repo_name)
+                os.system(f"cd {os.path.join('/opt', repo_name)} && bash installkali.sh")
+                print_banner()
+            elif int(choice) == 4:
+                # Install Alfred
+                repo_url = "https://github.com/alfredredbird/alfred"
+                repo_name = repo_url.split("/")[-1]
+                clone_repo(repo_url, repo_name)
+                os.system(f"cd {os.path.join('/opt', repo_name)} && sudo pip3 install -r requirements.txt")
+                print_banner()
+            elif int(choice) == 5:
+                return  # Go back to the main menu
+        else:
+            print("Invalid choice. Please try again.")
+
+def install_other_tools():
+    other_tools_menu = [
+        "PDTM (github.com/projectdiscovery/pdtm)",
+        "Webcopilot (github.com/h4r5h1t/webcopilot)",
+        "FatRat (https://github.com/Screetsec/TheFatRat.git)",
+        "Back to Main Menu"
+    ]
+
+    while True:
+        choice = display_menu(other_tools_menu, "Other Tools")
+
+        if choice == 'q':
             break
-        elif is_valid_choice(choice, len(osint_tools_menu)):
-            selected_tool = osint_tools_menu[int(choice) - 1]
-            install_git_repo(selected_tool[1], selected_tool[0])
+        elif choice == 'b':
+            return  # Go back to the main menu
+        elif choice.isdigit() and 1 <= int(choice) <= len(other_tools_menu):
+            if int(choice) == 1:
+                # Install PDTM
+                os.system("go install -v github.com/projectdiscovery/pdtm/cmd/pdtm@latest")
+                os.system("source ~/.zshrc")  # Source the zshrc file
+                os.system("~/go/bin/pdtm -ia")  # Run pdtm -ia
+                print_banner()
+            elif int(choice) == 2:
+                # Install Webcopilot
+                repo_url = "https://github.com/h4r5h1t/webcopilot"
+                repo_name = repo_url.split("/")[-1]
+                full_path = os.path.join("/opt", repo_name)
+
+                if os.path.exists(full_path):
+                    os.system(f"sudo rm -rf {full_path}")
+
+                os.system(f"sudo git clone {repo_url} {full_path}")
+                os.system(f"cd {full_path}")
+                os.system(f"sudo chmod +x webcopilot install.sh && sudo mv webcopilot /usr/bin/ && sudo ./install.sh")
+                print_banner()
+            elif int(choice) == 3:
+                # Install TheFatRat
+                repo_url = "https://github.com/Screetsec/TheFatRat.git"
+                repo_name = repo_url.split("/")[-1]
+                full_path = os.path.join("/opt", repo_name)
+
+                if os.path.exists(full_path):
+                    os.system(f"sudo rm -rf {full_path}")
+
+                clone_repo(repo_url, repo_name)
+                os.system(f"cd {os.path.join('/opt', repo_name)} && sudo chmod +x setup.sh && sudo ./setup.sh")
+                print_banner()
+            elif int(choice) == 4:
+                return  # Go back to the main menu
         else:
             print("Invalid choice. Please try again.")
 
 def main_menu():
-    """Display the main menu."""
-    menu_options = [
-        "Utility Tools",
-        "Security Tools",
-        "OSINT Tools",
-        "Other Tools"
-    ]
+    main_menu_options = ["Utility Tools", "Security Tools", "OSINT Tools", "Other Tools"]
 
     while True:
-        choice = display_menu(menu_options, "Main")
+        choice = display_menu(main_menu_options, "Main")
 
         if choice == 'q':
             break
-        elif is_valid_choice(choice, len(menu_options)):
+        elif choice.isdigit() and 1 <= int(choice) <= len(main_menu_options):
             if int(choice) == 1:
                 install_utility_tools()
             elif int(choice) == 2:
@@ -208,12 +267,13 @@ def main_menu():
             elif int(choice) == 3:
                 install_osint_tools()
             elif int(choice) == 4:
-                install_other_tools()
-
+                install_other_tools()  # Add the new option for "Other Tools"
+            # Add more options for other menus if needed
+            else:
+                pass
         else:
             print("Invalid choice. Please try again.")
 
-# Main execution
+
 if __name__ == "__main__":
-    check_permissions()
     main_menu()
