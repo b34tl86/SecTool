@@ -95,67 +95,51 @@ def install_security_tools():
         "Back to Main Menu"
     ]
 
+    def install_tool_by_choice(choice):
+        """Install a specific tool based on menu choice number."""
+        if choice == 1:
+            clone_repo("https://github.com/Tib3rius/AutoRecon.git", "AutoRecon")
+            os.system("cd /opt/AutoRecon && python3 -m pip install -r requirements.txt")  
+        elif choice == 2:
+            clone_repo("https://github.com/r0oth3x49/ghauri.git", "ghauri")
+            os.system("cd /opt/ghauri && python3 -m pip install --upgrade -r requirements.txt && python3 -m pip install -e")
+        elif choice == 3:
+            clone_repo("https://github.com/m3n0sd0n4ld/GooFuzz.git", "GooFuzz")
+            os.system("cd /opt/GooFuzz && sudo chmod +x GooFuzz")
+        elif choice == 4:
+            clone_repo("https://github.com/devanshbatham/paramspider", "paramspider")
+            os.system("cd /opt/paramspider && sudo pip install .")
+        elif choice == 5:
+            clone_repo("https://github.com/AzeemIdrisi/PhoneSploit-Pro.git", "PhoneSploit-Pro")
+            os.system("cd /opt/PhoneSploit-Pro && sudo pip install -r requirements.txt")
+        elif choice == 6:
+            clone_repo("https://www.github.com/ytisf/BirDuster", "BirDuster")
+            os.system("cd /opt/BirDuster && sudo pip3 install --user -r requirements.txt")
+        elif choice == 7:
+            clone_repo("https://github.com/0xKayala/NucleiScanner.git", "NucleiScanner")
+            os.system("cd /opt/NucleiScanner && cd NucleiScanner && sudo chmod +x install.sh && ./install.sh && ns -h && cd ..")
+        print_banner()
+
     while True:
         choice = display_menu(security_tools_menu, "Security Tools")
 
         if choice == 'q':
             break
         elif choice == 'b':
-            return  # Go back to the main menu-
+            return  # Go back to the main menu
         elif choice.isdigit() and 1 <= int(choice) <= len(security_tools_menu):
-            if int(choice) == 1:
-                # Install Autorecon
-                repo_url = "https://github.com/Tib3rius/AutoRecon.git"
-                repo_name = repo_url.split("/")[-1].split(".git")[0]
-                clone_repo(repo_url, repo_name)
-                os.system(f"cd {os.path.join('/opt', repo_name)} && python3 -m pip install -r requirements.txt")  
-                print_banner()
-            elif int(choice) == 2:
-                # Install Ghauri
-                repo_url = "https://github.com/r0oth3x49/ghauri.git"
-                repo_name = repo_url.split("/")[-1].split(".git")[0]
-                clone_repo(repo_url, repo_name)
-                os.system(f"cd {os.path.join('/opt', repo_name)} && python3 -m pip install --upgrade -r requirements.txt && python3 -m pip install -e")
-                print_banner()
-            elif int(choice) == 3:
-                # Install GooFuzz
-                repo_url = "https://github.com/m3n0sd0n4ld/GooFuzz.git"
-                repo_name = repo_url.split("/")[-1].split(".git")[0]
-                clone_repo(repo_url, repo_name)
-                os.system(f"cd {os.path.join('/opt', repo_name)} && sudo chmod +x GooFuzz")
-                print_banner()   
-            elif int(choice) == 4:
-                # Install ParamSpider
-                repo_url = "https://github.com/devanshbatham/paramspider"
-                repo_name = repo_url.split("/")[-1].split(".git")[0]
-                clone_repo(repo_url, repo_name)
-                os.system(f"cd {os.path.join('/opt', repo_name)} && sudo pip install .")
-                print_banner()
-            elif int(choice) == 5:
-                # Install PhoneSploit-Pro
-                repo_url = "https://github.com/AzeemIdrisi/PhoneSploit-Pro.git"
-                repo_name = repo_url.split("/")[-1].split(".git")[0]
-                clone_repo(repo_url, repo_name)
-                os.system(f"cd {os.path.join('/opt', repo_name)} && sudo pip install -r requirements.txt")
-                print_banner() 
-            elif int(choice) == 6:
-                # Install BirDuster
-                repo_url = "https://www.github.com/ytisf/BirDuster"
-                repo_name = repo_url.split("/")[-1].split(".git")[0]
-                clone_repo(repo_url, repo_name)
-                os.system(f"cd {os.path.join('/opt', repo_name)} && sudo pip3 install --user -r requirements.txt")
-                print_banner()
-            elif int(choice) == 7:
-                # Install BirDuster
-                repo_url = "https://github.com/0xKayala/NucleiScanner.git"
-                repo_name = repo_url.split("/")[-1].split(".git")[0]
-                clone_repo(repo_url, repo_name)
-                os.system(f"cd {os.path.join('/opt', repo_name)} && cd NucleiScanner && sudo chmod +x install.sh && ./install.sh && ns -h && cd ..")
-                print_banner()     
-            elif int(choice) == 8:
+            choice = int(choice)
+            if choice == len(security_tools_menu) - 1:
+                # Install all security tools
+                for i in range(1, len(security_tools_menu) - 1):
+                    install_tool_by_choice(i)
+            elif choice == len(security_tools_menu):
                 return  # Go back to the main menu
+            else:
+                install_tool_by_choice(choice)
         else:
             print("Invalid choice. Please try again.")
+
 
 def install_osint_tools():
     osint_tools_menu = [
