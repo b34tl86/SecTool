@@ -214,8 +214,26 @@ def install_other_tools():
         "PDTM (github.com/projectdiscovery/pdtm)",
         "Webcopilot (github.com/h4r5h1t/webcopilot)",
         "FatRat (https://github.com/Screetsec/TheFatRat.git)",
+        "Nucleimonst3r (https://github.com/blackhatethicalhacking/Nucleimonst3r.git)",
         "Back to Main Menu"
     ]
+
+    def install_nucleimonst3r():
+        """Install Nucleimonst3r tool to /opt."""
+        repo_url = "https://github.com/blackhatethicalhacking/Nucleimonst3r.git"
+        repo_name = "Nucleimonst3r"
+        full_path = os.path.join("/opt", repo_name)
+
+        # Remove any existing directory
+        if os.path.exists(full_path):
+            os.system(f"sudo rm -rf {full_path}")
+
+        # Clone the repository to /opt
+        os.system(f"sudo git clone {repo_url} {full_path}")
+        
+        # Make Nucleimonst3r.sh executable
+        os.system(f"cd {full_path} && sudo chmod +x Nucleimonst3r.sh")
+        print_banner()
 
     while True:
         choice = display_menu(other_tools_menu, "Other Tools")
@@ -225,16 +243,14 @@ def install_other_tools():
         elif choice == 'b':
             return  # Go back to the main menu
         elif choice.isdigit() and 1 <= int(choice) <= len(other_tools_menu):
-            if int(choice) == 1:
-                # Remove existing ProjectDiscovery tools
-                remove_projectdiscovery_tools()
-
+            choice = int(choice)
+            if choice == 1:
                 # Install PDTM
                 os.system("go install -v github.com/projectdiscovery/pdtm/cmd/pdtm@latest")
                 os.system("source ~/.zshrc")  # Source the zshrc file
                 os.system("~/go/bin/pdtm -ia")  # Run pdtm -ia
                 print_banner()
-            elif int(choice) == 2:
+            elif choice == 2:
                 # Install Webcopilot
                 repo_url = "https://github.com/h4r5h1t/webcopilot"
                 repo_name = repo_url.split("/")[-1]
@@ -244,10 +260,9 @@ def install_other_tools():
                     os.system(f"sudo rm -rf {full_path}")
 
                 os.system(f"sudo git clone {repo_url} {full_path}")
-                os.system(f"cd {full_path}")
-                os.system(f"sudo chmod +x webcopilot install.sh && sudo mv webcopilot /usr/bin/ && sudo ./install.sh")
+                os.system(f"cd {full_path} && sudo chmod +x webcopilot install.sh && sudo mv webcopilot /usr/bin/ && sudo ./install.sh")
                 print_banner()
-            elif int(choice) == 3:
+            elif choice == 3:
                 # Install TheFatRat
                 repo_url = "https://github.com/Screetsec/TheFatRat.git"
                 repo_name = repo_url.split("/")[-1]
@@ -259,7 +274,10 @@ def install_other_tools():
                 clone_repo(repo_url, repo_name)
                 os.system(f"cd {os.path.join('/opt', repo_name)} && sudo chmod +x setup.sh && sudo ./setup.sh")
                 print_banner()
-            elif int(choice) == 4:
+            elif choice == 4:
+                # Install Nucleimonst3r to /opt
+                install_nucleimonst3r()
+            elif choice == len(other_tools_menu):
                 return  # Go back to the main menu
         else:
             print("Invalid choice. Please try again.")
