@@ -295,7 +295,7 @@ def main_menu():
             "Install Security Tools",
             "Install OSINT Tools",
             "Install Other Tools",
-            "Exit"
+
         ]
         choice = display_menu(menu_options, "Main")
 
