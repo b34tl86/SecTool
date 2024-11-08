@@ -36,8 +36,8 @@ def display_menu(menu_options, menu_name):
         print(f"{index}. {option}")
 
     # Add "A" for Install All and "B" for Back to Main Menu
-    print(f"\nA. Install All\nB. Back to Main Menu\nQ. Quit")
-    choice = input("\nEnter your choice: ")
+    print(f"\nA. Install All\nB. Back to Main Menu\nq. Quit")
+    choice = input("\nEnter your choice (q to quit, B to go back to main menu): ")
     return choice
 
 def print_banner():
@@ -130,64 +130,59 @@ def install_utility_tools():
 def install_security_tools():
     """Install security tools from the menu."""
     security_tools_menu = [
-        "AutoRecon (https://github.com/Tib3rius/AutoRecon.git)",
-        "Ghauri (https://github.com/r0oth3x49/ghauri.git)",
-        "GooFuzz (https://github.com/m3n0sd0n4ld/GooFuzz.git)",
-        "ParamSpider (https://github.com/devanshbatham/paramspider)",
-        "PhoneSploit-Pro (https://github.com/AzeemIdrisi/PhoneSploit-Pro.git)",
-        "BirDuster (https://www.github.com/ytisf/BirDuster)",
-        "NucleiScanner (https://github.com/0xKayala/NucleiScanner.git)"
+        ("AutoRecon", "https://github.com/Tib3rius/AutoRecon.git"),
+        ("Ghauri", "https://github.com/r0oth3x49/ghauri.git"),
+        ("GooFuzz", "https://github.com/m3n0sd0n4ld/GooFuzz.git"),
+        ("ParamSpider", "https://github.com/devanshbatham/paramspider"),
+        ("PhoneSploit-Pro", "https://github.com/AzeemIdrisi/PhoneSploit-Pro.git"),
+        ("BirDuster", "https://www.github.com/ytisf/BirDuster"),
+        ("NucleiScanner", "https://github.com/0xKayala/NucleiScanner.git")
     ]
 
     while True:
-        choice = display_menu(security_tools_menu, "Security Tools")
+        choice = display_menu([tool[0] for tool in security_tools_menu], "Security Tools")
 
         if choice == 'q':
             break
         elif choice.lower() == 'a':
             # Install all security tools
-            for i in range(0, len(security_tools_menu)):
-                install_git_repo(security_tools_menu[i], security_tools_menu[i].split()[-1])
+            for tool in security_tools_menu:
+                install_git_repo(tool[1], tool[0])
             print("All security tools installed.")
         elif choice.lower() == 'b':
             # Go back to the main menu
             break
         elif is_valid_choice(choice, len(security_tools_menu)):
-            install_git_repo(security_tools_menu[int(choice) - 1], security_tools_menu[int(choice) - 1].split()[-1])
+            selected_tool = security_tools_menu[int(choice) - 1]
+            install_git_repo(selected_tool[1], selected_tool[0])
         else:
             print("Invalid choice. Please try again.")
 
 def install_osint_tools():
     """Install OSINT tools from the menu."""
     osint_tools_menu = [
-        "BlackBird (https://github.com/p1ngul1n0/blackbird)",
-        "Mr. Holmes (https://github.com/Lucksi/Mr.Holmes)",
-        "SIGIT (https://github.com/termuxhackers-id/SIGIT.git)",
-        "Alfred (https://github.com/alfredredbird/alfred)"
+        ("BlackBird", "https://github.com/p1ngul1n0/blackbird"),
+        ("Mr. Holmes", "https://github.com/Lucksi/Mr.Holmes"),
+        ("SIGIT", "https://github.com/termuxhackers-id/SIGIT.git"),
+        ("Alfred", "https://github.com/alfredredbird/alfred")
     ]
 
     while True:
-        choice = display_menu(osint_tools_menu, "OSINT Tools")
+        choice = display_menu([tool[0] for tool in osint_tools_menu], "OSINT Tools")
 
         if choice == 'q':
             break
         elif choice.lower() == 'a':
             # Install all OSINT tools
-            for i in range(0, len(osint_tools_menu)):
-                install_git_repo(osint_tools_menu[i], osint_tools_menu[i].split()[-1])
+            for tool in osint_tools_menu:
+                install_git_repo(tool[1], tool[0])
             print("All OSINT tools installed.")
         elif choice.lower() == 'b':
             # Go back to the main menu
             break
         elif is_valid_choice(choice, len(osint_tools_menu)):
-            if int(choice) == 1:
-                install_git_repo("https://github.com/p1ngul1n0/blackbird", "blackbird")
-            elif int(choice) == 2:
-                install_git_repo("https://github.com/Lucksi/Mr.Holmes", "mrholmes")
-            elif int(choice) == 3:
-                install_git_repo("https://github.com/termuxhackers-id/SIGIT.git", "SIGIT")
-            elif int(choice) == 4:
-                install_git_repo("https://github.com/alfredredbird/alfred", "alfred")
+            selected_tool = osint_tools_menu[int(choice) - 1]
+            install_git_repo(selected_tool[1], selected_tool[0])
         else:
             print("Invalid choice. Please try again.")
 
