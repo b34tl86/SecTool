@@ -22,15 +22,15 @@ def clear_screen():
 # Function to print banner
 def print_banner():
     banner = f"""
-    {Fore.RED}{Style.BRIGHT}███████ ▓█████  ▄████▄  ▄▄▄█████▓ ▒█████   ▒█████   ██▓    
-    ▒██    ▒ ▓█   ▀ ▒██▀ ▀█  ▓  ██▒ ▓▒▒██▒  ██▒▒██▒  ██▒▓██▒    
-    ░ ▓██▄   ▒███   ▒▓█    ▄ ▒ ▓██░ ▒░▒██░  ██▒▒██░  ██▒▒██░    
-      ▒   ██▒▒▓█  ▄ ▒▓▓▄ ▄██▒░ ▓██▓ ░ ▒██   ██░▒██   ██░▒██░    
+    {Fore.RED}{Style.BRIGHT}███████ ▓█████  ▄████▄  ▄▄▄█████▓ ▒█████   ▒█████   ██▓
+    ▒██    ▒ ▓█   ▀ ▒██▀ ▀█  ▓  ██▒ ▓▒▒██▒  ██▒▒██▒  ██▒▓██▒
+    ░ ▓██▄   ▒███   ▒▓█    ▄ ▒ ▓██░ ▒░▒██░  ██▒▒██░  ██▒▒██░
+      ▒   ██▒▒▓█  ▄ ▒▓▓▄ ▄██▒░ ▓██▓ ░ ▒██   ██░▒██   ██░▒██░
     ▒██████▒▒░▒████▒▒ ▓███▀ ░  ▒██▒ ░ ░ ████▓▒░░ ████▓▒░░██████▒ Ver.3.0
     ▒ ▒▓▒ ▒ ░░░ ▒░ ░░ ░▒ ▒  ░  ▒ ░░   ░ ▒░▒░▒░ ░ ▒░▒░▒░ ░ ▒░▓  ░
-    ░ ░▒  ░ ░ ░ ░  ░  ░  ▒       ░      ░      ░ ░ ░ ░    ░ ░   
-          ░     ░  ░░ ░                   ░ ░      ░ ░      ░  
-                    ░                                          
+    ░ ░▒  ░ ░ ░ ░  ░  ░  ▒       ░      ░      ░ ░ ░ ░    ░ ░
+          ░     ░  ░░ ░                   ░ ░      ░ ░      ░
+                    ░
                                     Made with ❤️️ by s1lv3r{Style.RESET_ALL}
     """
     print(banner)
@@ -71,7 +71,7 @@ def install_utility_tools():
         "geany",
         "gedit",
         "synaptic""\n",
-       
+
         "A - Install All",
         "B - Back to Main Menu",
         "Q - Quit"
@@ -102,8 +102,9 @@ def install_security_tools():
         "GooFuzz (https://github.com/m3n0sd0n4ld/GooFuzz.git)",
         "ParamSpider (https://github.com/devanshbatham/paramspider)",
         "PhoneSploit-Pro (https://github.com/AzeemIdrisi/PhoneSploit-Pro.git)",
-        "BirDuster (https://www.github.com/ytisf/BirDuster)""\n",
-        
+        "BirDuster (https://www.github.com/ytisf/BirDuster)",
+        "AircrackAuto (https://github.com/1ucif3r/aircrackauto.git)""\n",
+
         "A - Install All",
         "B - Back to Main Menu",
         "Q - Quit"
@@ -117,24 +118,35 @@ def install_security_tools():
             return
         elif choice == 'A':
             # Install all security tools
-            install_tool("https://github.com/Tib3rius/AutoRecon.git", post_install_commands=["python3 -m pip install -r requirements.txt"])
-            install_tool("https://github.com/r0oth3x49/ghauri.git", post_install_commands=["python3 -m pip install --upgrade -r requirements.txt", "python3 -m pip install -e"])
-            install_tool("https://github.com/m3n0sd0n4ld/GooFuzz.git", post_install_commands=["sudo chmod +x GooFuzz"])
+            install_tool("https://github.com/Tib3rius/AutoRecon", post_install_commands=["python3 -m pip install -r requirements.txt"])
+            install_tool("https://github.com/r0oth3x49/ghauri", post_install_commands=["python3 -m pip install --upgrade -r requirements.txt", "python3 -m pip install -e"])
+            install_tool("https://github.com/m3n0sd0n4ld/GooFuzz", post_install_commands=["sudo chmod +x GooFuzz"])
             install_tool("https://github.com/devanshbatham/paramspider", post_install_commands=["sudo pip install ."])
-            install_tool("https://github.com/AzeemIdrisi/PhoneSploit-Pro.git", post_install_commands=["sudo pip install -r requirements.txt"])
+            install_tool("https://github.com/AzeemIdrisi/PhoneSploit-Pro", post_install_commands=["sudo pip install -r requirements.txt"])
             install_tool("https://www.github.com/ytisf/BirDuster", post_install_commands=["sudo pip3 install --user -r requirements.txt"])
+            install_tool("https://github.com/1ucif3r/aircrackauto", post_install_commands=["sudo cd aircrackauto", "chmod +x install.sh", "./install.sh"])
             print_banner()
         elif choice == '1':
             # Install Autorecon
                 repo_url = "https://github.com/Tib3rius/AutoRecon.git"
                 repo_name = repo_url.split("/")[-1].split(".git")[0]
+                full_path = os.path.join("/opt", repo_name)
+
+                if os.path.exists(full_path):
+                    os.system(f"sudo rm -rf {full_path}")
+
                 clone_repo(repo_url, repo_name)
-                os.system(f"cd {os.path.join('/opt', repo_name)} && python3 -m pip install -r requirements.txt")  
+                os.system(f"cd {os.path.join('/opt', repo_name)} && python3 -m pip install -r requirements.txt")
                 print_banner()
         elif choice == '2':
                 # Install Ghauri
                 repo_url = "https://github.com/r0oth3x49/ghauri.git"
                 repo_name = repo_url.split("/")[-1].split(".git")[0]
+                full_path = os.path.join("/opt", repo_name)
+
+                if os.path.exists(full_path):
+                    os.system(f"sudo rm -rf {full_path}")
+
                 clone_repo(repo_url, repo_name)
                 os.system(f"cd {os.path.join('/opt', repo_name)} && python3 -m pip install --upgrade -r requirements.txt && python3 -m pip install -e")
                 print_banner()
@@ -142,13 +154,23 @@ def install_security_tools():
                 # Install GooFuzz
                 repo_url = "https://github.com/m3n0sd0n4ld/GooFuzz.git"
                 repo_name = repo_url.split("/")[-1].split(".git")[0]
+                full_path = os.path.join("/opt", repo_name)
+
+                if os.path.exists(full_path):
+                    os.system(f"sudo rm -rf {full_path}")
+
                 clone_repo(repo_url, repo_name)
                 os.system(f"cd {os.path.join('/opt', repo_name)} && sudo chmod +x GooFuzz")
-                print_banner()   
+                print_banner()
         elif int(choice) == 4:
                 # Install ParamSpider
                 repo_url = "https://github.com/devanshbatham/paramspider"
                 repo_name = repo_url.split("/")[-1].split(".git")[0]
+                full_path = os.path.join("/opt", repo_name)
+
+                if os.path.exists(full_path):
+                    os.system(f"sudo rm -rf {full_path}")
+
                 clone_repo(repo_url, repo_name)
                 os.system(f"cd {os.path.join('/opt', repo_name)} && sudo pip install .")
                 print_banner()
@@ -156,17 +178,45 @@ def install_security_tools():
                 # Install PhoneSploit-Pro
                 repo_url = "https://github.com/AzeemIdrisi/PhoneSploit-Pro.git"
                 repo_name = repo_url.split("/")[-1].split(".git")[0]
+                full_path = os.path.join("/opt", repo_name)
+
+                if os.path.exists(full_path):
+                    os.system(f"sudo rm -rf {full_path}")
+
                 clone_repo(repo_url, repo_name)
                 os.system(f"cd {os.path.join('/opt', repo_name)} && sudo pip install -r requirements.txt")
-                print_banner() 
+                print_banner()
         elif int(choice) == 6:
                 # Install BirDuster
                 repo_url = "https://www.github.com/ytisf/BirDuster"
                 repo_name = repo_url.split("/")[-1].split(".git")[0]
+                full_path = os.path.join("/opt", repo_name)
+
+                if os.path.exists(full_path):
+                    os.system(f"sudo rm -rf {full_path}")
+
                 clone_repo(repo_url, repo_name)
                 os.system(f"cd {os.path.join('/opt', repo_name)} && sudo pip3 install --user -r requirements.txt")
-                print_banner()                                                           
+                print_banner()
         elif int(choice) == 7:
+            # Install AircrackAuto
+            repo_url = "https://github.com/1ucif3r/aircrackauto"
+            repo_name = repo_url.split("/")[-1]
+            full_path = os.path.join("/opt", repo_name)
+
+            # Remove any existing directory and clone afresh
+            if os.path.exists(full_path):
+                os.system(f"sudo rm -rf {full_path}")
+
+            # Clone the repository, install pystyle, change directory, set permissions, and run install.sh
+            os.system(
+                f"sudo git clone {repo_url} {full_path} && "
+                f"pip install pystyle && "
+                f"cd {full_path} && sudo chmod +x install.sh && sudo ./install.sh"
+            )
+            print_banner()
+
+        elif int(choice) == 8:
                 return  # Go back to the main menu
         else:
             print("Invalid choice. Please try again.")
@@ -176,9 +226,9 @@ def install_osint_tools():
     osint_tools_menu = [
         "BlackBird (https://github.com/p1ngul1n0/blackbird)",
         "Mr. Holmes (https://github.com/Lucksi/Mr.Holmes)",
-        "SIGIT (https://github.com/termuxhackers-id/SIGIT.git)",
+        "SIGIT (https://github.com/termuxhackers-id/SIGIT)",
         "Alfred (https://github.com/alfredredbird/alfred)""\n",
-        
+
         "A - Install All",
         "B - Back to Main Menu",
         "Q - Quit"
@@ -192,7 +242,7 @@ def install_osint_tools():
             return
         elif choice == 'A':
             install_tool("https://github.com/alfredredbird/alfred", post_install_commands=["sudo pip3 install -r requirements.txt"])
-            install_tool("https://github.com/termuxhackers-id/SIGIT.git", repo_name="SIGIT", post_install_commands=["bash installkali.sh"])
+            install_tool("https://github.com/termuxhackers-id/SIGIT", repo_name="SIGIT", post_install_commands=["bash installkali.sh"])
             install_tool("https://github.com/Lucksi/Mr.Holmes", post_install_commands=["sudo chmod +x install.sh", "sudo bash install.sh"])
             install_tool("https://github.com/p1ngul1n0/blackbird", post_install_commands=["pip install -r requirements.txt"])
             print_banner()
@@ -212,7 +262,7 @@ def install_osint_tools():
                 print_banner()
         elif int(choice) == 3:
                 # Install SIGIT
-                repo_url = "https://github.com/termuxhackers-id/SIGIT.git"
+                repo_url = "https://github.com/termuxhackers-id/SIGIT"
                 repo_name = "SIGIT"
                 clone_repo(repo_url, repo_name)
                 os.system(f"cd {os.path.join('/opt', repo_name)} && bash installkali.sh")
@@ -226,15 +276,15 @@ def install_osint_tools():
                 print_banner()
         else:
             print("Invalid choice. Please try again.")
-    
-            
+
+
 # Function for installing other tools
 def install_other_tools():
     other_tools_menu = [
         "PDTM (github.com/projectdiscovery/pdtm)",
         "Webcopilot (github.com/h4r5h1t/webcopilot)",
         "TheFatRat (github.com/Screetsec/TheFatRat)""\n",
-        
+
         "A - Install All",
         "B - Back to Main Menu",
         "Q - Quit"
