@@ -70,8 +70,8 @@ def install_utility_tools():
         "chromium-browser",
         "geany",
         "gedit",
-        "synaptic\n",
-        
+        "synaptic""\n",
+       
         "A - Install All",
         "B - Back to Main Menu",
         "Q - Quit"
@@ -85,7 +85,7 @@ def install_utility_tools():
             return
         elif choice == 'A':
             # Install all utility tools
-            for tool in utility_tools_menu[:-3]:
+            for tool in utility_tools_menu[:-4]:
                 os.system(f"sudo apt-get purge -y {tool} && sudo apt-get autoremove -y && sudo apt-get install -y {tool}")
             print_banner()
         elif choice.isdigit() and 1 <= int(choice) <= len(utility_tools_menu) - 3:
@@ -102,7 +102,7 @@ def install_security_tools():
         "GooFuzz (https://github.com/m3n0sd0n4ld/GooFuzz.git)",
         "ParamSpider (https://github.com/devanshbatham/paramspider)",
         "PhoneSploit-Pro (https://github.com/AzeemIdrisi/PhoneSploit-Pro.git)",
-        "BirDuster (https://www.github.com/ytisf/BirDuster)\n",
+        "BirDuster (https://www.github.com/ytisf/BirDuster)""\n",
         
         "A - Install All",
         "B - Back to Main Menu",
@@ -177,7 +177,7 @@ def install_osint_tools():
         "BlackBird (https://github.com/p1ngul1n0/blackbird)",
         "Mr. Holmes (https://github.com/Lucksi/Mr.Holmes)",
         "SIGIT (https://github.com/termuxhackers-id/SIGIT.git)",
-        "Alfred (https://github.com/alfredredbird/alfred)\n",
+        "Alfred (https://github.com/alfredredbird/alfred)""\n",
         
         "A - Install All",
         "B - Back to Main Menu",
@@ -233,7 +233,7 @@ def install_other_tools():
     other_tools_menu = [
         "PDTM (github.com/projectdiscovery/pdtm)",
         "Webcopilot (github.com/h4r5h1t/webcopilot)",
-        "TheFatRat (github.com/Screetsec/TheFatRat)\n",
+        "TheFatRat (github.com/Screetsec/TheFatRat)""\n",
         
         "A - Install All",
         "B - Back to Main Menu",
