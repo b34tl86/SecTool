@@ -70,8 +70,8 @@ def install_utility_tools():
         "chromium-browser",
         "geany",
         "gedit",
-        "synaptic",
-        "",
+        "synaptic""\n",
+        
         "A - Install All",
         "B - Back to Main Menu",
         "Q - Quit"
@@ -227,8 +227,8 @@ def install_osint_tools():
         "BlackBird (https://github.com/p1ngul1n0/blackbird)",
         "Mr. Holmes (https://github.com/Lucksi/Mr.Holmes)",
         "SIGIT (https://github.com/termuxhackers-id/SIGIT)",
-        "Alfred (https://github.com/alfredredbird/alfred)",
-        "",
+        "Alfred (https://github.com/alfredredbird/alfred)""\n",
+        
         "A - Install All",
         "B - Back to Main Menu",
         "Q - Quit"
