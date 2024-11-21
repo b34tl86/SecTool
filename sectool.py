@@ -72,9 +72,6 @@ def install_utility_tools():
         "gedit",
         "synaptic""\n",
         
-        "A - Install All",
-        "B - Back to Main Menu",
-        "Q - Quit"
     ]
     while True:
         choice = display_menu(utility_tools_menu, "Utility Tools")
@@ -103,11 +100,8 @@ def install_security_tools():
         "ParamSpider (https://github.com/devanshbatham/paramspider)",
         "PhoneSploit-Pro (https://github.com/AzeemIdrisi/PhoneSploit-Pro.git)",
         "BirDuster (https://www.github.com/ytisf/BirDuster)",
-        "AircrackAuto (https://github.com/1ucif3r/aircrackauto.git)""\n",
+        "AircrackAuto (https://github.com/1ucif3r/aircrackauto.git)",
 
-        "A - Install All",
-        "B - Back to Main Menu",
-        "Q - Quit"
     ]
     while True:
         choice = display_menu(security_tools_menu, "Security Tools")
@@ -227,11 +221,8 @@ def install_osint_tools():
         "BlackBird (https://github.com/p1ngul1n0/blackbird)",
         "Mr. Holmes (https://github.com/Lucksi/Mr.Holmes)",
         "SIGIT (https://github.com/termuxhackers-id/SIGIT)",
-        "Alfred (https://github.com/alfredredbird/alfred)""\n",
-        
-        "A - Install All",
-        "B - Back to Main Menu",
-        "Q - Quit"
+        "Alfred (https://github.com/alfredredbird/alfred)",
+
     ]
     while True:
         choice = display_menu(osint_tools_menu, "OSINT Tools")
@@ -285,9 +276,6 @@ def install_other_tools():
         "Webcopilot (github.com/h4r5h1t/webcopilot)",
         "TheFatRat (github.com/Screetsec/TheFatRat)""\n",
 
-        "A - Install All",
-        "B - Back to Main Menu",
-        "Q - Quit"
     ]
     while True:
         choice = display_menu(other_tools_menu, "Other Tools")
@@ -338,7 +326,23 @@ def install_other_tools():
                 return  # Go back to the main menu
         else:
             print("Invalid choice. Please try again.")
+            
+# Function to handle menu display and input
+def display_menu(menu_options, menu_name):
+    clear_screen()
+    print_banner()
+    print(f"\n{Fore.RED}{Style.BRIGHT}{menu_name} Menu:{Style.RESET_ALL}")
+    for index, option in enumerate(menu_options, start=1):
+        print(f"{Fore.YELLOW}{index}. {Fore.RESET}{option}")
+    
+    # Add special options (A, B, Q) below the numbered menu
+    print(f"\n{Fore.GREEN}A - Install All")
+    print(f"B - Back to Main Menu")
+    print(f"Q - Quit{Style.RESET_ALL}\n")
 
+    choice = input("Enter your choice (number or A/B/Q): ").upper()
+    return choice
+    
 # Main menu function
 def main_menu():
     while True:
@@ -347,7 +351,6 @@ def main_menu():
             "Install Security Tools",
             "Install OSINT Tools",
             "Install Other Tools",
-
         ]
         choice = display_menu(menu_options, "Main")
 
@@ -364,7 +367,7 @@ def main_menu():
         elif choice == '5':
             break
         else:
-            print("Invalid choice. Please try again.")
+            print(f"{Fore.RED}Invalid choice. Please try again.{Style.RESET_ALL}")
 
 # Start the menu
 if __name__ == "__main__":
