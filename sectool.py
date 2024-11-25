@@ -70,9 +70,9 @@ def install_utility_tools():
         "chromium-browser",
         "geany",
         "gedit",
-        "synaptic""\n",
-        
+        "synaptic",
     ]
+    
     while True:
         choice = display_menu(utility_tools_menu, "Utility Tools")
 
@@ -82,14 +82,17 @@ def install_utility_tools():
             return
         elif choice == 'A':
             # Install all utility tools
-            for tool in utility_tools_menu[:-4]:
-                os.system(f"sudo apt-get purge -y {tool} && sudo apt-get autoremove -y && sudo apt-get install -y {tool}")
-            print_banner()
-        elif choice.isdigit() and 1 <= int(choice) <= len(utility_tools_menu) - 3:
-            os.system(f"sudo apt-get purge -y {utility_tools_menu[int(choice) - 1]} && sudo apt-get autoremove -y && sudo apt-get install -y {utility_tools_menu[int(choice) - 1]}")
-            print_banner()
+            for tool in utility_tools_menu:
+                os.system(f"sudo apt-get install -y {tool}")
+            print(f"{Fore.GREEN}All tools installed successfully!{Style.RESET_ALL}")
+        elif choice.isdigit() and 1 <= int(choice) <= len(utility_tools_menu):
+            # Install selected tool
+            selected_tool = utility_tools_menu[int(choice) - 1]
+            os.system(f"sudo apt-get install -y {selected_tool}")
+            print(f"{Fore.GREEN}{selected_tool} installed successfully!{Style.RESET_ALL}")
         else:
-            print("Invalid choice. Please try again.")
+            print(f"{Fore.RED}Invalid choice. Please try again.{Style.RESET_ALL}")
+
 
 # Function for installing security tools
 def install_security_tools():
