@@ -26,7 +26,7 @@ def print_banner():
     ▒██    ▒ ▓█   ▀ ▒██▀ ▀█  ▓  ██▒ ▓▒▒██▒  ██▒▒██▒  ██▒▓██▒
     ░ ▓██▄   ▒███   ▒▓█    ▄ ▒ ▓██░ ▒░▒██░  ██▒▒██░  ██▒▒██░
       ▒   ██▒▒▓█  ▄ ▒▓▓▄ ▄██▒░ ▓██▓ ░ ▒██   ██░▒██   ██░▒██░
-    ▒██████▒▒░▒████▒▒ ▓███▀ ░  ▒██▒ ░ ░ ████▓▒░░ ████▓▒░░██████▒ Ver.3.1a
+    ▒██████▒▒░▒████▒▒ ▓███▀ ░  ▒██▒ ░ ░ ████▓▒░░ ████▓▒░░██████▒ Ver.3.3a
     ▒ ▒▓▒ ▒ ░░░ ▒░ ░░ ░▒ ▒  ░  ▒ ░░   ░ ▒░▒░▒░ ░ ▒░▒░▒░ ░ ▒░▓  ░
     ░ ░▒  ░ ░ ░ ░  ░  ░  ▒       ░      ░      ░ ░ ░ ░    ░ ░
           ░     ░  ░░ ░                   ░ ░      ░ ░      ░
@@ -115,12 +115,12 @@ def install_security_tools():
             return
         elif choice == 'A':
             # Install all security tools
-            install_tool("https://github.com/Tib3rius/AutoRecon", post_install_commands=["python3 -m pip install -r requirements.txt"])
-            install_tool("https://github.com/r0oth3x49/ghauri", post_install_commands=["python3 -m pip install --upgrade -r requirements.txt", "python3 -m pip install -e"])
+            install_tool("https://github.com/Tib3rius/AutoRecon", post_install_commands=["cat requirements.txt | xargs -n 1 pipx install"])
+            install_tool("https://github.com/r0oth3x49/ghauri", post_install_commands=["cat requirements.txt | xargs -n 1 pipx install", "python3 -m pip install -e"])
             install_tool("https://github.com/m3n0sd0n4ld/GooFuzz", post_install_commands=["sudo chmod +x GooFuzz"])
             install_tool("https://github.com/devanshbatham/paramspider", post_install_commands=["sudo pip install ."])
-            install_tool("https://github.com/AzeemIdrisi/PhoneSploit-Pro", post_install_commands=["sudo pip install -r requirements.txt"])
-            install_tool("https://www.github.com/ytisf/BirDuster", post_install_commands=["sudo pip3 install --user -r requirements.txt"])
+            install_tool("https://github.com/AzeemIdrisi/PhoneSploit-Pro", post_install_commands=["cat requirements.txt | xargs -n 1 pipx install"])
+            install_tool("https://www.github.com/ytisf/BirDuster", post_install_commands=["cat requirements.txt | xargs -n 1 pipx install"])
             install_tool("https://github.com/1ucif3r/aircrackauto", post_install_commands=["sudo cd aircrackauto", "chmod +x install.sh", "./install.sh"])
             print_banner()
         elif choice == '1':
