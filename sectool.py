@@ -67,7 +67,7 @@ def display_menu(menu_options, menu_name):
 # Function for installing utility tools
 def install_utility_tools():
     utility_tools_menu = [
-        "chromium-browser",
+        "chromium",
         "geany",
         "gedit",
         "synaptic",
